@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -16,6 +17,9 @@ namespace ODF.Site
 	{
 		protected void Application_Start()
 		{
+            var log = LogManager.GetLogger("Main");
+            log.Info("Application started");
+
 			AreaRegistration.RegisterAllAreas();
 
 			WebApiConfig.Register(GlobalConfiguration.Configuration);
