@@ -13,19 +13,6 @@ namespace ODF.Utils.Lenses
             return new LensBuilder<M, P>();
         }
 
-        class IdentityLens<T> : ILens<T, T>
-        {
-            public T Get(T model)
-            {
-                return model;
-            }
-
-            public T Update(T model, T projection)
-            {
-                return projection;
-            }
-        }
-
         public static ILens<T, T> Identity<T>()
         {
             return new IdentityLens<T>();
