@@ -34,12 +34,10 @@ namespace ODF.Tests.Lenses
             var lens = new PropertyLens<TestClass, string>(m => m.StringProp);
 
             Assert.AreEqual("initial", obj.StringProp);
-            Assert.AreEqual("initial", lens.Get(obj));
-            var obj1 = lens.Update(obj, "new");
+            Assert.AreEqual("initial", lens.Map(obj));
+            lens.Update(obj, "new");
             Assert.AreEqual("new", obj.StringProp);
-            Assert.AreEqual("new", lens.Get(obj));
-            Assert.AreEqual("new", obj1.StringProp);
-            Assert.AreEqual("new", lens.Get(obj1));
+            Assert.AreEqual("new", lens.Map(obj));
         }
 
         [Test]
@@ -53,12 +51,10 @@ namespace ODF.Tests.Lenses
             var lens = new PropertyLens<TestClass, int>(m => m.IntProp);
 
             Assert.AreEqual(3, obj.IntProp);
-            Assert.AreEqual(3, lens.Get(obj));
-            var obj1 = lens.Update(obj, 42);
+            Assert.AreEqual(3, lens.Map(obj));
+            lens.Update(obj, 42);
             Assert.AreEqual(42, obj.IntProp);
-            Assert.AreEqual(42, lens.Get(obj));
-            Assert.AreEqual(42, obj1.IntProp);
-            Assert.AreEqual(42, lens.Get(obj1));
+            Assert.AreEqual(42, lens.Map(obj));
         }
 
         [Test]
@@ -74,7 +70,7 @@ namespace ODF.Tests.Lenses
 
             var lens = new PropertyLens<TestClass, string>(m => m.Child.ChildStringProp);
 
-            Assert.AreEqual(obj.Child.ChildStringProp, lens.Get(obj));
+            Assert.AreEqual(obj.Child.ChildStringProp, lens.Map(obj));
             lens.Update(obj, "new");
             Assert.AreEqual("new", obj.Child.ChildStringProp);
         }

@@ -40,10 +40,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ExceptionWriter.cs" />
-    <Compile Include="Lenses\CompositeLens.cs" />
     <Compile Include="Lenses\IdentityLens.cs" />
-    <Compile Include="Lenses\ILens.cs" />
-    <Compile Include="Lenses\IMap.cs" />
+    <Compile Include="Lenses\Interfaces.cs" />
+    <Compile Include="Lenses\LensExtensions.cs" />
+    <Compile Include="Lenses\BasicLens.cs" />
     <Compile Include="Lenses\Lens.cs" />
     <Compile Include="Lenses\LensBuilder.cs" />
     <Compile Include="Lenses\PropertyLens.cs" />

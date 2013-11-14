@@ -26,9 +26,14 @@ namespace ODF.Tests.Lenses
 
         class Projection
         {
-            public int ID { get; set; }
-            public string Name { get; set; }
-            public ProjectionChild ProjChild { get; set; }
+            public int ProjectionID { get; set; }
+            public string ProjectionName { get; set; }
+            public ProjectionChild ProjectionChild { get; set; }
+        }
+
+        class FlatProjection
+        {
+            public string ChildName { get; set; }
         }
 
         class ProjectionChild
@@ -36,22 +41,70 @@ namespace ODF.Tests.Lenses
             public string Name { get; set; }
         }
 
-        static ILens<ModelChild, ProjectionChild> childLens = Lens.Build<ModelChild, ProjectionChild>()
-            .Map(m => m.ChildName, v => v.Name, Lens.Identity<string>())
+        static IMutateLens<ModelChild, ProjectionChild> childLens = Lens.Build<ModelChild, ProjectionChild>()
+            .Scalar(m => m.ChildName, v => v.Name, Lens.Identity<string>())
             .Build();
 
-        static ILens<Model, Projection> staticLens = Lens.Build<Model, Projection>()
-                .Map(m => m.ID, v => v.ID, Lens.Identity<int>(), IsReadonly: true)
-                .Map(m => m.Name, v => v.Name, Lens.Identity<string>())
-                .Map(m => m.Child, v => v.ProjChild, childLens)
+        static IMutateLens<Model, Projection> staticLens = Lens.Build<Model, Projection>()
+                .Scalar(m => m.ID, v => v.ProjectionID, Lens.Identity<int>())
+                .Scalar(m => m.Name, v => v.ProjectionName, Lens.Identity<string>())
+                .Reference(m => m.Child, v => v.ProjectionChild, childLens)
                 .Build();
+
+        Model GetTestModel()
+        {
+            return new Model()
+            {
+                ID = 10,
+                Name = "name",
+                Description = "description",
+                Child = new ModelChild()
+                {
+                    ChildName = "child name"
+                }
+            };
+        }
 
         [Test]
         public void BasicMapping()
         {
-            var model = new Model();
-            var view = staticLens.Get(model);
+            var model = GetTestModel();
+            var view = staticLens.Map(model);
+            Assert.AreEqual(10, view.ProjectionID);
+            Assert.AreEqual("name", view.ProjectionName);
+            Assert.AreEqual("child name", view.ProjectionChild.Name);
+
+            view.ProjectionID = 11;
+            view.ProjectionName = "new name";
+            view.ProjectionChild.Name = "new child name";
+
             staticLens.Update(model, view);
+
+            Assert.AreEqual(11, model.ID);
+            Assert.AreEqual("new name", model.Name);
+            Assert.AreEqual("new child name", model.Child.ChildName);
+            Assert.AreEqual("description", model.Description);
+
+            var anotherModel = GetTestModel();
+
+            staticLens.Update(anotherModel, view);
+
+            Assert.AreEqual(11, anotherModel.ID);
+            Assert.AreEqual("new name", anotherModel.Name);
+            Assert.AreEqual("new child name", anotherModel.Child.ChildName);
+            Assert.AreEqual("description", anotherModel.Description);
+        }
+
+        [Test]
+        public void FlattenTest()
+        {
+            var model = GetTestModel();
+            var lens = Lens.Build<Model, FlatProjection>().Scalar(m => m.Child.ChildName, p => p.ChildName, Lens.Identity<string>()).Build();
+            var view = lens.Map(model);
+            Assert.AreEqual("child name", view.ChildName);
+            view.ChildName = "new child name";
+            lens.Update(model, view);
+            Assert.AreEqual("new child name", model.Child.ChildName);
         }
     }
 }

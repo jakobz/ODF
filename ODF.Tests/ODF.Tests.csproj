@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Lenses\BasicLensTests.cs" />
     <Compile Include="Lenses\FluidLensTests.cs" />
     <Compile Include="Lenses\PropertyLensTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

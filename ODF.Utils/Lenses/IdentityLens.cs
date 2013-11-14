@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 
 namespace ODF.Utils.Lenses
 {
-    class IdentityLens<T> : ILens<T, T>
+    class IdentityLens<T> : IPureLens<T, T>
     {
-        public T Get(T model)
+        public T Map(T from)
         {
-            return model;
+            return from;
         }
 
-        public T Update(T model, T projection)
+        public T UnMap(T to)
         {
-            return projection;
+            return to;
         }
     }
 }
