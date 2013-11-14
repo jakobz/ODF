@@ -22,5 +22,13 @@ namespace ODF.Utils.Lenses
         {
             return new BasicLens<From, To>(towards, backwards);
         }
+
+        public static IMutateLens<IDictionary<Key, ModelValue>, IDictionary<Key, ProjectionValue>>
+            Dictionary<Key, ModelValue, ProjectionValue>(IMutateLens<ModelValue, ProjectionValue> valueLens, Func<ModelValue> create)
+        {
+            return new DictionaryLens<Key, ModelValue, ProjectionValue>(valueLens, create);
+        }
+
+        public static readonly IPureLens<int, string> IntToString = Lens.Pure<int, string>(n => n.ToString(), b => int.Parse(b));
     }
 }

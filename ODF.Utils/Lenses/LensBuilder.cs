@@ -31,7 +31,7 @@ namespace ODF.Utils.Lenses
                 return result;
             }
 
-            public void Update(M model, P projection)
+            public void Apply(M model, P projection)
             {
                 foreach (var mapping in mappings)
                 {
@@ -56,13 +56,13 @@ namespace ODF.Utils.Lenses
                 {
                     var val = modelLens.Map(from);
                     var converted = transformLens.Map(val);
-                    viewLens.Update(to, converted);
+                    viewLens.Apply(to, converted);
                 },
                 CopyBackwards = (from, to) =>
                 {
                     var val = viewLens.Map(to);
                     var converted = transformLens.UnMap(val);
-                    modelLens.Update(from, converted);
+                    modelLens.Apply(from, converted);
                 }
             });
             return this;
@@ -82,13 +82,13 @@ namespace ODF.Utils.Lenses
                 {
                     var val = modelLens.Map(from);
                     var converted = transformLens.Map(val);
-                    viewLens.Update(to, converted);
+                    viewLens.Apply(to, converted);
                 },
                 CopyBackwards = (from, to) =>
                 {
                     var toObj = viewLens.Map(to);
                     var fromObj = modelLens.Map(from);
-                    transformLens.Update(fromObj, toObj);
+                    transformLens.Apply(fromObj, toObj);
                 }
             });
             return this;

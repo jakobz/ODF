@@ -18,6 +18,6 @@ namespace ODF.Utils.Lenses
 
     public interface IMutateLens<From, To> : IMap<From, To>
     {
-        void Update(From model, To projection);
+        void Apply(From model, To projection);
     }
 }

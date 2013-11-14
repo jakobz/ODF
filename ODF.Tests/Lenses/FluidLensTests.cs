@@ -78,7 +78,7 @@ namespace ODF.Tests.Lenses
             view.ProjectionName = "new name";
             view.ProjectionChild.Name = "new child name";
 
-            staticLens.Update(model, view);
+            staticLens.Apply(model, view);
 
             Assert.AreEqual(11, model.ID);
             Assert.AreEqual("new name", model.Name);
@@ -87,7 +87,7 @@ namespace ODF.Tests.Lenses
 
             var anotherModel = GetTestModel();
 
-            staticLens.Update(anotherModel, view);
+            staticLens.Apply(anotherModel, view);
 
             Assert.AreEqual(11, anotherModel.ID);
             Assert.AreEqual("new name", anotherModel.Name);
@@ -103,7 +103,7 @@ namespace ODF.Tests.Lenses
             var view = lens.Map(model);
             Assert.AreEqual("child name", view.ChildName);
             view.ChildName = "new child name";
-            lens.Update(model, view);
+            lens.Apply(model, view);
             Assert.AreEqual("new child name", model.Child.ChildName);
         }
     }

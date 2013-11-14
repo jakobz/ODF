@@ -26,7 +26,7 @@ namespace ODF.Utils.Lenses
             return getter(model);
         }
 
-        public void Update(M model, P projection)
+        public void Apply(M model, P projection)
         {
             setter(model, projection);
         }
