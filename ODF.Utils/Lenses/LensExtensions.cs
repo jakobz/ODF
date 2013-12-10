@@ -14,6 +14,6 @@ namespace ODF.Utils.Lenses
                     a => second.Map(first.Map(a)),
                     c => first.UnMap(second.UnMap(c))
                );
-        }
+        }        
     }
 }

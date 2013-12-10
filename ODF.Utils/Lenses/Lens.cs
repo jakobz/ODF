@@ -18,9 +18,14 @@ namespace ODF.Utils.Lenses
             return new IdentityLens<T>();
         }
 
+        public static IMap<From, To> Map<From, To>(Func<From, To> map)
+        {
+            return new LambdaMap<From, To>(map);
+        }
+
         public static IPureLens<From, To> Pure<From, To>(Func<From, To> towards, Func<To, From> backwards)
         {
-            return new BasicLens<From, To>(towards, backwards);
+            return new LambdaLens<From, To>(towards, backwards);
         }
 
         public static IMutateLens<IDictionary<Key, ModelValue>, IDictionary<Key, ProjectionValue>>

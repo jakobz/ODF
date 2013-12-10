@@ -50,6 +50,7 @@ namespace ODF.Utils.Lenses
         {
             var modelLens = new PropertyLens<M, MProp>(modelProperty);
             var viewLens = new PropertyLens<P, PProp>(viewProperty);
+
             lens.mappings.Add(new PropertyMapping()
             {
                 CopyTowards = (from, to) =>
@@ -94,11 +95,31 @@ namespace ODF.Utils.Lenses
             return this;
         }
 
-        public LensBuilder<M, P> Identity<T>(
+        public LensBuilder<M, P> Scalar<T>(
             Expression<Func<M, T>> modelProperty,
             Expression<Func<P, T>> viewProperty)
         {
             return Scalar<T, T>(modelProperty, viewProperty, Lens.Identity<T>());
+        }
+
+        public LensBuilder<M, P> Project<T>(
+                Expression<Func<M, T>> functionExpression, 
+                Expression<Func<P, T>> viewProperty
+            )
+        {
+            var viewLens = new PropertyLens<P, T>(viewProperty);
+            var function = functionExpression.Compile();
+
+            lens.mappings.Add(new PropertyMapping()
+            {
+                CopyTowards = (from, to) =>
+                {
+                    var converted = function(from);
+                    viewLens.Apply(to, converted);
+                },
+                CopyBackwards = null
+            });
+            return this;
         }
 
         public IMutateLens<M, P> Build()

@@ -7,20 +7,13 @@ using System.Threading.Tasks;
 
 namespace ODF.Utils.Lenses
 {
-    public class BasicLens<From, To> : IPureLens<From, To>
+    public class LambdaLens<From, To> : LambdaMap<From,To>, IPureLens<From, To>
     {
-        Func<From, To> towards;
         Func<To, From> backwards;
 
-        public BasicLens(Func<From, To> towards, Func<To, From> backwards)
+        public LambdaLens(Func<From, To> towards, Func<To, From> backwards) : base(towards)
         {
-            this.towards = towards;
             this.backwards = backwards;
-        }
-
-        public To Map(From from)
-        {
-            return towards(from);
         }
 
         public From UnMap(To to)

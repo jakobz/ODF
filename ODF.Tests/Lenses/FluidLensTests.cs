@@ -42,12 +42,12 @@ namespace ODF.Tests.Lenses
         }
 
         static IMutateLens<ModelChild, ProjectionChild> childLens = Lens.Build<ModelChild, ProjectionChild>()
-            .Scalar(m => m.ChildName, v => v.Name, Lens.Identity<string>())
+            .Scalar(m => m.ChildName, v => v.Name)
             .Build();
 
         static IMutateLens<Model, Projection> staticLens = Lens.Build<Model, Projection>()
-                .Scalar(m => m.ID, v => v.ProjectionID, Lens.Identity<int>())
-                .Scalar(m => m.Name, v => v.ProjectionName, Lens.Identity<string>())
+                .Scalar(m => m.ID, v => v.ProjectionID)
+                .Scalar(m => m.Name, v => v.ProjectionName)
                 .Reference(m => m.Child, v => v.ProjectionChild, childLens)
                 .Build();
 

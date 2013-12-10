@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -43,8 +46,9 @@
     <Compile Include="Lenses\DictionaryLens.cs" />
     <Compile Include="Lenses\IdentityLens.cs" />
     <Compile Include="Lenses\Interfaces.cs" />
+    <Compile Include="Lenses\LambdaMap.cs" />
     <Compile Include="Lenses\LensExtensions.cs" />
-    <Compile Include="Lenses\BasicLens.cs" />
+    <Compile Include="Lenses\LambdaLens.cs" />
     <Compile Include="Lenses\Lens.cs" />
     <Compile Include="Lenses\LensBuilder.cs" />
     <Compile Include="Lenses\PropertyLens.cs" />
@@ -52,7 +56,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringExtensions.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
