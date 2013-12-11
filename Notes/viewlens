@@ -1,0 +1,25 @@
+View lens is a pair of functions:
+get: model -> viewmodel
+update: model -> (viewmodel -> viewmodel) -> model
+
+1. Server usage:
+- get model 
+- use update to do something over it
+- save model
+
+2. Client usage:
+GET:
+- get model (all params should be in URL)
+- use get to retrieve viewmodel
+- send to client
+
+POST:
+- get initial and updated models from client
+- get model with the same params from URL (we need default model for create operation)
+- optional conflicts detection: map model to viewmodel with get, compare with initial model from client
+- use update to map viewmodel to loaded model. Validation should go here
+- save changes
+
+
+ideas
+- master-detail relations should be hashes, so any child should have an id
